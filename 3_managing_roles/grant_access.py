@@ -59,3 +59,27 @@ grant_response = client.role_grants.create(grant, timeout=30)
 
 print("Successfully created role grant.")
 print("\tID: ", grant_response.role_grant.id)
+
+# Create a user
+user = strongdm.User(
+    email="example@strongdm.com",
+    first_name="example",
+    last_name="example",
+)
+
+user_response = client.accounts.create(user, timeout=30)
+
+print("Successfully created user.")
+print("\tEmail: ", user_response.account.email)
+print("\tID: ", user_response.account.id)
+
+# Attach the user to the role
+grant = strongdm.AccountAttachment(
+    account_id=user_response.account.id,
+    role_id=role_response.role.id
+)
+
+attachment_response = client.account_attachments.create(grant, timeout=30)
+
+print("Successfully created account attachment.")
+print("\tID: ", attachment_response.account_attachment.id)
