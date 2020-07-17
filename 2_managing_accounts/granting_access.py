@@ -15,10 +15,10 @@
 import os
 import strongdm
 
-#	Load the SDM API keys from the environment.
-#	If these values are not set in your environment,
-#	please follow the documentation here:
-#	https://www.strongdm.com/docs/admin-guide/api-credentials/
+# Load the SDM API keys from the environment.
+# If these values are not set in your environment,
+# please follow the documentation here:
+# https://www.strongdm.com/docs/admin-guide/api-credentials/
 api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
