@@ -21,8 +21,7 @@ import strongdm
 #	https://www.strongdm.com/docs/admin-guide/api-credentials/
 api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
-client = strongdm.Client(api_access_key, api_secret_key,
-                         host="api.strongdmdev.com:443")
+client = strongdm.Client(api_access_key, api_secret_key)
 
 # Create a role
 role = strongdm.Role(
