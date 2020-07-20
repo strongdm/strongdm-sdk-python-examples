@@ -44,14 +44,14 @@ role_response = client.roles.create(role, timeout=30)
 print("Successfully created role.")
 print("\tID: ", role_response.role.id)
 
-# Attach the user to the role
-grant = strongdm.RoleAttachment(
+# Attach the role to the composite role
+attachment = strongdm.RoleAttachment(
     composite_role_id=composite_response.role.id,
     attached_role_id=role_response.role.id,
 
 )
 
-attachment_response = client.role_attachments.create(grant, timeout=30)
+attachment_response = client.role_attachments.create(attachment, timeout=30)
 
-print("Successfully created account attachment.")
+print("Successfully created role attachment.")
 print("\tID: ", attachment_response.role_attachment.id)
