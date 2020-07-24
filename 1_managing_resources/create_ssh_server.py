@@ -21,7 +21,7 @@ import strongdm
 # https://www.strongdm.com/docs/admin-guide/api-credentials/
 api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
-client = strongdm.Client(api_access_key, api_secret_key)
+client = strongdm.Client(api_access_key, api_secret_key, host="api.strongdmdev.com:443")
 
 ssh_server = strongdm.SSH(
     name="Example SSH Server",
@@ -35,3 +35,4 @@ response = client.resources.create(ssh_server, timeout=30)
 print("Successfully created SSH server.")
 print("\tName: ", response.resource.name)
 print("\tID: ", response.resource.id)
+print("\tPublic Key: ", response.resource.public_key)
