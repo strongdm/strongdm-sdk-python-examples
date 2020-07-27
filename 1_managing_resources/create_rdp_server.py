@@ -28,7 +28,8 @@ rdp_server = strongdm.RDP(
     hostname="example.strongdm.com",
     username="example",
     password="example",
-    port=3389
+    port=3389,
+    port_override=19999
 )
 
 response = client.resources.create(rdp_server, timeout=30)
