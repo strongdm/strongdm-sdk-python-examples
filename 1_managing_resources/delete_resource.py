@@ -36,8 +36,8 @@ postgres = strongdm.Postgres(
 create_response = client.resources.create(postgres, timeout=30)
 
 print("Successfully created Postgres datasource.")
-print("\tName: ", create_response.resource.name)
-print("\tID: ", create_response.resource.id)
+print("\tName:", create_response.resource.name)
+print("\tID:", create_response.resource.id)
 
 # Delete the datasource
 client.resources.delete(create_response.resource.id, timeout=30)

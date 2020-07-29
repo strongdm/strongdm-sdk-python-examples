@@ -35,5 +35,5 @@ rdp_server = strongdm.RDP(
 response = client.resources.create(rdp_server, timeout=30)
 
 print("Successfully created RDP server.")
-print("\tName: ", response.resource.name)
-print("\tID: ", response.resource.id)
+print("\tName:", response.resource.name)
+print("\tID:", response.resource.id)

@@ -36,5 +36,5 @@ postgres = strongdm.Postgres(
 response = client.resources.create(postgres, timeout=30)
 
 print("Successfully created Postgres datasource.")
-print("\tName: ", response.resource.name)
-print("\tID: ", response.resource.id)
+print("\tName:", response.resource.name)
+print("\tID:", response.resource.id)

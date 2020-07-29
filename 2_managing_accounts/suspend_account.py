@@ -31,8 +31,8 @@ user = strongdm.User(
 )
 response = client.accounts.create(user, timeout=30)
 print("Successfully created user.")
-print("\tEmail: ", response.account.email)
-print("\tID: ", response.account.id)
+print("\tEmail:", response.account.email)
+print("\tID:", response.account.id)
 
 # Get the account
 get_response = client.accounts.get(response.account.id, timeout=30)
@@ -44,5 +44,5 @@ account.suspended = True
 # Update the account
 update_response = client.accounts.update(account, timeout=30)
 print("Successfully suspended account.")
-print("\tID: ", update_response.account.id)
-print("\tSuspended: ", update_response.account.suspended)
+print("\tID:", update_response.account.id)
+print("\tSuspended:", update_response.account.suspended)

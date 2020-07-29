@@ -58,5 +58,5 @@ eks_cluster = strongdm.AmazonEKS(
 response = client.resources.create(eks_cluster, timeout=30)
 
 print("Successfully created EKS cluster.")
-print("\tName: ", response.resource.name)
-print("\tID: ", response.resource.id)
+print("\tName:", response.resource.name)
+print("\tID:", response.resource.id)

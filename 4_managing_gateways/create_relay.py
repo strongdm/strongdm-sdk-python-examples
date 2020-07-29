@@ -31,5 +31,5 @@ relay = strongdm.Relay(
 node_response = client.nodes.create(relay, timeout=30)
 
 print("Successfully created relay.")
-print("\tID: ", node_response.node.id)
-print("\tToken: ", node_response.token)
+print("\tID:", node_response.node.id)
+print("\tToken:", node_response.token)

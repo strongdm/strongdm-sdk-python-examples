@@ -32,7 +32,7 @@ composite = strongdm.Role(
 composite_response = client.roles.create(composite, timeout=30)
 
 print("Successfully created composite role.")
-print("\tID: ", composite_response.role.id)
+print("\tID:", composite_response.role.id)
 
 # Create a role
 role = strongdm.Role(
@@ -42,7 +42,7 @@ role = strongdm.Role(
 role_response = client.roles.create(role, timeout=30)
 
 print("Successfully created role.")
-print("\tID: ", role_response.role.id)
+print("\tID:", role_response.role.id)
 
 # Attach the role to the composite role
 attachment = strongdm.RoleAttachment(
@@ -54,4 +54,4 @@ attachment = strongdm.RoleAttachment(
 attachment_response = client.role_attachments.create(attachment, timeout=30)
 
 print("Successfully created role attachment.")
-print("\tID: ", attachment_response.role_attachment.id)
+print("\tID:", attachment_response.role_attachment.id)

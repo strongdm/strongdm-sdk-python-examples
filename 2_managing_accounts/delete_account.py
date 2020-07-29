@@ -31,8 +31,8 @@ user = strongdm.User(
 )
 response = client.accounts.create(user, timeout=30)
 print("Successfully created user.")
-print("\tEmail: ", response.account.email)
-print("\tID: ", response.account.id)
+print("\tEmail:", response.account.email)
+print("\tID:", response.account.id)
 
 # Delete an account
 client.accounts.delete(response.account.id, timeout=30)

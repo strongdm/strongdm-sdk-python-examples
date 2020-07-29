@@ -37,8 +37,8 @@ postgres = strongdm.Postgres(
 datasource_response = client.resources.create(postgres, timeout=30)
 
 print("Successfully created Postgres datasource.")
-print("\tName: ", datasource_response.resource.name)
-print("\tID: ", datasource_response.resource.id)
+print("\tName:", datasource_response.resource.name)
+print("\tID:", datasource_response.resource.id)
 
 # Create a role
 role = strongdm.Role(
@@ -48,7 +48,7 @@ role = strongdm.Role(
 role_response = client.roles.create(role, timeout=30)
 
 print("Successfully created role.")
-print("\tID: ", role_response.role.id)
+print("\tID:", role_response.role.id)
 
 # Grant the role access to the datasource
 grant = strongdm.RoleGrant(
@@ -59,7 +59,7 @@ grant = strongdm.RoleGrant(
 grant_response = client.role_grants.create(grant, timeout=30)
 
 print("Successfully created role grant.")
-print("\tID: ", grant_response.role_grant.id)
+print("\tID:", grant_response.role_grant.id)
 
 # Create a user
 user = strongdm.User(
@@ -71,8 +71,8 @@ user = strongdm.User(
 user_response = client.accounts.create(user, timeout=30)
 
 print("Successfully created user.")
-print("\tEmail: ", user_response.account.email)
-print("\tID: ", user_response.account.id)
+print("\tEmail:", user_response.account.email)
+print("\tID:", user_response.account.id)
 
 # Attach the user to the role
 grant = strongdm.AccountAttachment(
@@ -83,4 +83,4 @@ grant = strongdm.AccountAttachment(
 attachment_response = client.account_attachments.create(grant, timeout=30)
 
 print("Successfully created account attachment.")
-print("\tID: ", attachment_response.account_attachment.id)
+print("\tID:", attachment_response.account_attachment.id)

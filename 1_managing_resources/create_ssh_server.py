@@ -33,6 +33,6 @@ ssh_server = strongdm.SSH(
 response = client.resources.create(ssh_server, timeout=30)
 
 print("Successfully created SSH server.")
-print("\tName: ", response.resource.name)
-print("\tID: ", response.resource.id)
-print("\tPublic Key: ", response.resource.public_key)
+print("\tName:", response.resource.name)
+print("\tID:", response.resource.id)
+print("\tPublic Key:", response.resource.public_key)

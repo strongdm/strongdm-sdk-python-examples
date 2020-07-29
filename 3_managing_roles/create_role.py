@@ -31,4 +31,4 @@ role = strongdm.Role(
 role_response = client.roles.create(role, timeout=30)
 
 print("Successfully created role.")
-print("\tID: ", role_response.role.id)
+print("\tID:", role_response.role.id)

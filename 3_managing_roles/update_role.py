@@ -29,8 +29,8 @@ role = strongdm.Role(
 )
 create_response = client.roles.create(role, timeout=30)
 print("Successfully created role.")
-print("\tID: ", create_response.role.id)
-print("\tName: ", create_response.role.name)
+print("\tID:", create_response.role.id)
+print("\tName:", create_response.role.name)
 
 # Get the role
 get_response = client.roles.get(create_response.role.id, timeout=30)
@@ -42,5 +42,5 @@ role.name = "example role updated"
 # Update the role
 update_response = client.roles.update(role, timeout=30)
 print("Successfully updated role.")
-print("\tID: ", update_response.role.id)
-print("\tName: ", update_response.role.name)
+print("\tID:", update_response.role.id)
+print("\tName:", update_response.role.name)

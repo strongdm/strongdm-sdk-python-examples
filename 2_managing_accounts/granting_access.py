@@ -33,8 +33,8 @@ user = strongdm.User(
 user_response = client.accounts.create(user, timeout=30)
 
 print("Successfully created user.")
-print("\tEmail: ", user_response.account.email)
-print("\tID: ", user_response.account.id)
+print("\tEmail:", user_response.account.email)
+print("\tID:", user_response.account.id)
 
 # Create a datasource
 postgres = strongdm.Postgres(
@@ -50,8 +50,8 @@ postgres = strongdm.Postgres(
 datasource_response = client.resources.create(postgres, timeout=30)
 
 print("Successfully created Postgres datasource.")
-print("\tName: ", datasource_response.resource.name)
-print("\tID: ", datasource_response.resource.id)
+print("\tName:", datasource_response.resource.name)
+print("\tID:", datasource_response.resource.id)
 
 # Grant the user access to the datasource
 grant = strongdm.AccountGrant(
@@ -62,4 +62,4 @@ grant = strongdm.AccountGrant(
 grant_response = client.account_grants.create(grant, timeout=30)
 
 print("Successfully created account grant.")
-print("\tID: ", grant_response.account_grant.id)
+print("\tID:", grant_response.account_grant.id)

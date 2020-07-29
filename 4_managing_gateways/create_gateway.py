@@ -32,5 +32,5 @@ gateway = strongdm.Gateway(
 node_response = client.nodes.create(gateway, timeout=30)
 
 print("Successfully created gateway.")
-print("\tID: ", node_response.node.id)
+print("\tID:", node_response.node.id)
 print("\tToken:", node_response.token)

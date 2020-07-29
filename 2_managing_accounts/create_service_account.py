@@ -30,6 +30,6 @@ service = strongdm.Service(
 response = client.accounts.create(service, timeout=30)
 
 print("Successfully created service.")
-print("\tName: ", response.account.name)
-print("\tID: ", response.account.id)
-print("\tToken: ", response.token)
+print("\tName:", response.account.name)
+print("\tID:", response.account.id)
+print("\tToken:", response.token)

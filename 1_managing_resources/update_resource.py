@@ -36,8 +36,8 @@ postgres = strongdm.Postgres(
 create_response = client.resources.create(postgres, timeout=30)
 
 print("Successfully created Postgres datasource.")
-print("\tName: ", create_response.resource.name)
-print("\tID: ", create_response.resource.id)
+print("\tName:", create_response.resource.name)
+print("\tID:", create_response.resource.id)
 
 # Load the datasource to update
 get_response = client.resources.get(create_response.resource.id, timeout=30)
@@ -50,5 +50,5 @@ resource.name = "Example Name Updated"
 update_response = client.resources.update(resource, timeout=30)
 
 print("Successfully updated Postgres datasource.")
-print("    ID:", update_response.resource.id)
-print("  Name:", update_response.resource.name)
+print("\tID:", update_response.resource.id)
+print("\tName:", update_response.resource.name)
