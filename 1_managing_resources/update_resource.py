@@ -44,7 +44,7 @@ get_response = client.resources.get(create_response.resource.id, timeout=30)
 resource = get_response.resource
 
 # Update the fields to change
-resource.name = "Updated Example Name"
+resource.name = "Example Name Updated"
 
 # Update the datasource
 update_response = client.resources.update(resource, timeout=30)
