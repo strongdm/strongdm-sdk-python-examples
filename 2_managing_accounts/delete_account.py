@@ -23,17 +23,17 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
+# Create an account
 user = strongdm.User(
     email="example@strongdm.com",
     first_name="example",
     last_name="example",
 )
-
 response = client.accounts.create(user, timeout=30)
-
 print("Successfully created user.")
 print("\tEmail: ", response.account.email)
 print("\tID: ", response.account.id)
 
+# Delete an account
 client.accounts.delete(response.account.id, timeout=30)
 print("Successfully deleted account.")
