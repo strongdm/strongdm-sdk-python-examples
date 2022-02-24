@@ -13,34 +13,92 @@
 # limitations under the License.
 #
 import os
-import strongdm
+import random
+import strongdm as sdm
 
-# Load the SDM API keys from the environment.
-# If these values are not set in your environment,
-# please follow the documentation here:
-# https://www.strongdm.com/docs/admin-guide/api-credentials/
-api_access_key = os.getenv("SDM_API_ACCESS_KEY")
-api_secret_key = os.getenv("SDM_API_SECRET_KEY")
-client = strongdm.Client(api_access_key, api_secret_key)
+def create_example_resources(client):
+  # Create a resource (e.g., Redis)
+  redis = sdm.Redis(
+    name = "exampleRedis-%s" % random.randint(0,100000),
+    hostname = "example.com",
+    port_override = random.randint(3000, 20000),
+    tags = {"env": "staging"},
+  )
+  return client.resources.create(redis).resource
 
-# Create a role
-role = strongdm.Role(
-    name="example role",
-)
-create_response = client.roles.create(role, timeout=30)
-print("Successfully created role.")
-print("\tID:", create_response.role.id)
-print("\tName:", create_response.role.name)
+def create_example_role(client, access_rules):
+  resp = client.roles.create(
+    sdm.Role(
+      name = "exampleRole-%s" % random.randint(0,100000),
+      access_rules = access_rules,
+    )
+  )
+  return resp.role
 
-# Get the role
-get_response = client.roles.get(create_response.role.id, timeout=30)
-role = get_response.role
+def create_and_update_access_rules(client):
+  redis = create_example_resources(client)
 
-# Set fields
-role.name = "example role updated"
+  # Create a Role with initial Access Rule
+  access_rules = [ {"ids": [redis.id]} ]
+  role = create_example_role(client, access_rules)
+  # Update Access Rules
+  role.access_rules = [
+    {
+      "tags": {"env": "staging"}
+    },
+    {
+      "type": "redis"
+    }
+  ]
 
-# Update the role
-update_response = client.roles.update(role, timeout=30)
-print("Successfully updated role.")
-print("\tID:", update_response.role.id)
-print("\tName:", update_response.role.name)
+  client.roles.update(role)
+
+def	create_role_grant_via_access_rules(client):
+  resource1 = create_example_resources(client)
+  resource2 = create_example_resources(client)
+  role = create_example_role(client, [{"ids": [ resource1.id ]}])
+
+  # Add Resource2's ID to the Role's Access Rules
+  role.access_rules[0]["ids"].append(resource2.id)
+  client.roles.update(role).role
+
+
+def delete_role_grant_via_access_rules(client):
+  resource1 = create_example_resources(client)
+  resource2 = create_example_resources(client)
+  role = create_example_role(client, [{"ids": [ resource1.id, resource2.id ]}])
+
+  # Remove the ID of the second resource
+  role.access_rules[0]["ids"].remove(resource2.id)
+  client.roles.update(role)
+
+def list_role_grants_via_access_rules(client):
+  resource = create_example_resources(client)
+  role = create_example_role(client, [{"ids": [ resource.id ]}])
+
+  # role.access_rules contains each Access Rule associated with the role
+  print(role.access_rules[0]["ids"])
+
+
+# accessRules.py demonstrates usage of Access Rules
+# usage:
+# python3 accessRules.py
+def main():
+  client = sdm.Client(os.getenv("SDM_API_ACCESS_KEY"), os.getenv("SDM_API_SECRET_KEY"))
+
+  # Each of the following functions is an example of how to do an operation using Access Rules.
+
+  create_and_update_access_rules(client)
+
+ 	# The RoleGrants API has been deprecated in favor of Access Rules.
+  # When using Access Rules, the best practice is to grant Resources access based on Type and Tags.
+	# If it is _necessary_ to grant access to specific Resources in the same way as RoleGrants did,
+	# you can use Resource IDs directly in Access Rules as shown in the following examples.
+
+  create_role_grant_via_access_rules(client)
+  delete_role_grant_via_access_rules(client)
+  list_role_grants_via_access_rules(client)
+
+
+if __name__ == "__main__":
+  main()
