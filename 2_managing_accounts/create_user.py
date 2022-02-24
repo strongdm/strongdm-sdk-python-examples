@@ -13,7 +13,8 @@
 # limitations under the License.
 #
 import os
-import strongdm
+import random
+import strongdm as sdm
 
 # Load the SDM API keys from the environment.
 # If these values are not set in your environment,

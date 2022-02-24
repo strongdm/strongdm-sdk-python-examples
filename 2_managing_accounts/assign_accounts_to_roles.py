@@ -13,7 +13,8 @@
 # limitations under the License.
 #
 import os
-import strongdm
+import random
+import strongdm as sdm
 
 # Load the SDM API keys from the environment.
 # If these values are not set in your environment,
@@ -23,7 +24,44 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
-# Create a user
+def create_example_resources(client):
+  # Create a resource (e.g., Redis)
+  redis = sdm.Redis(
+    name = "exampleRedis-%s" % random.randint(0,100000),
+    hostname = "example.com",
+    port_override = random.randint(3000, 20000),
+    tags = {"env": "staging"},
+  )
+  return client.resources.create(redis).resource
+
+def create_example_role(client, access_rules):
+  resp = client.roles.create(
+    sdm.Role(
+      name = "exampleRole-%s" % random.randint(0,100000),
+      access_rules = access_rules,
+    )
+  )
+  return resp.role
+
+def create_and_update_access_rules(client):
+  redis = create_example_resources(client)
+
+  # Create a Role with initial Access Rule
+  access_rules = [ {"ids": [redis.id]} ]
+  role = create_example_role(client, access_rules)
+  # Update Access Rules
+  role.access_rules = [
+    {
+      "tags": {"env": "staging"}
+    },
+    {
+      "type": "redis"
+    }
+  ]
+
+  client.roles.update(role)
+
+# Create a User
 user = strongdm.User(
     email="example@strongdm.com",
     first_name="example",
@@ -36,18 +74,7 @@ print("Successfully created user.")
 print("\tEmail:", user_response.account.email)
 print("\tID:", user_response.account.id)
 
-# Create a role
-role = strongdm.Role(
-    name="example role",
-)
-
-role_response = client.roles.create(role, timeout=30)
-
-print("Successfully created role.")
-print("\tID:", role_response.role.id)
-
-
-# Attach the user to the role
+# Assign the User to the Role
 grant = strongdm.AccountAttachment(
     account_id=user_response.account.id,
     role_id=role_response.role.id

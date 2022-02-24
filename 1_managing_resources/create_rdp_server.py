@@ -29,7 +29,8 @@ rdp_server = strongdm.RDP(
     username="example",
     password="example",
     port=3389,
-    port_override=19999
+    port_override=19999,
+    tags={"env":"example"},
 )
 
 response = client.resources.create(rdp_server, timeout=30)

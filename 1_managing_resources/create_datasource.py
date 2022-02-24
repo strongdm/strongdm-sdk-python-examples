@@ -31,6 +31,7 @@ postgres = strongdm.Postgres(
     password="example",
     database="example",
     port_override=19999,
+    tags={"env":"example"},
 )
 
 response = client.resources.create(postgres, timeout=30)

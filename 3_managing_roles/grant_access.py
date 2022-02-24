@@ -13,74 +13,92 @@
 # limitations under the License.
 #
 import os
-import strongdm
+import random
+import strongdm as sdm
 
-# Load the SDM API keys from the environment.
-# If these values are not set in your environment,
-# please follow the documentation here:
-# https://www.strongdm.com/docs/admin-guide/api-credentials/
-api_access_key = os.getenv("SDM_API_ACCESS_KEY")
-api_secret_key = os.getenv("SDM_API_SECRET_KEY")
-client = strongdm.Client(api_access_key, api_secret_key)
+def create_example_resources(client):
+  # Create a resource (e.g., Redis)
+  redis = sdm.Redis(
+    name = "exampleRedis-%s" % random.randint(0,100000),
+    hostname = "example.com",
+    port_override = random.randint(3000, 20000),
+    tags = {"env": "staging"},
+  )
+  return client.resources.create(redis).resource
 
-# Create a datasource
-postgres = strongdm.Postgres(
-    name="Example Postgres Datasource",
-    hostname="example.strongdm.com",
-    port=5432,
-    username="example",
-    password="example",
-    database="example",
-    port_override=19999,
-)
+def create_example_role(client, access_rules):
+  resp = client.roles.create(
+    sdm.Role(
+      name = "exampleRole-%s" % random.randint(0,100000),
+      access_rules = access_rules,
+    )
+  )
+  return resp.role
 
-datasource_response = client.resources.create(postgres, timeout=30)
+def create_and_update_access_rules(client):
+  redis = create_example_resources(client)
 
-print("Successfully created Postgres datasource.")
-print("\tName:", datasource_response.resource.name)
-print("\tID:", datasource_response.resource.id)
+  # Create a Role with initial Access Rule
+  access_rules = [ {"ids": [redis.id]} ]
+  role = create_example_role(client, access_rules)
+  # Update Access Rules
+  role.access_rules = [
+    {
+      "tags": {"env": "staging"}
+    },
+    {
+      "type": "redis"
+    }
+  ]
 
-# Create a role
-role = strongdm.Role(
-    name="example role",
-)
+  client.roles.update(role)
 
-role_response = client.roles.create(role, timeout=30)
+def	create_role_grant_via_access_rules(client):
+  resource1 = create_example_resources(client)
+  resource2 = create_example_resources(client)
+  role = create_example_role(client, [{"ids": [ resource1.id ]}])
 
-print("Successfully created role.")
-print("\tID:", role_response.role.id)
+  # Add Resource2's ID to the Role's Access Rules
+  role.access_rules[0]["ids"].append(resource2.id)
+  client.roles.update(role).role
 
-# Grant the role access to the datasource
-grant = strongdm.RoleGrant(
-    role_id=role_response.role.id,
-    resource_id=datasource_response.resource.id,
-)
 
-grant_response = client.role_grants.create(grant, timeout=30)
+def delete_role_grant_via_access_rules(client):
+  resource1 = create_example_resources(client)
+  resource2 = create_example_resources(client)
+  role = create_example_role(client, [{"ids": [ resource1.id, resource2.id ]}])
 
-print("Successfully created role grant.")
-print("\tID:", grant_response.role_grant.id)
+  # Remove the ID of the second resource
+  role.access_rules[0]["ids"].remove(resource2.id)
+  client.roles.update(role)
 
-# Create a user
-user = strongdm.User(
-    email="example@strongdm.com",
-    first_name="example",
-    last_name="example",
-)
+def list_role_grants_via_access_rules(client):
+  resource = create_example_resources(client)
+  role = create_example_role(client, [{"ids": [ resource.id ]}])
 
-user_response = client.accounts.create(user, timeout=30)
+  # role.access_rules contains each Access Rule associated with the role
+  print(role.access_rules[0]["ids"])
 
-print("Successfully created user.")
-print("\tEmail:", user_response.account.email)
-print("\tID:", user_response.account.id)
 
-# Attach the user to the role
-grant = strongdm.AccountAttachment(
-    account_id=user_response.account.id,
-    role_id=role_response.role.id
-)
+# accessRules.py demonstrates usage of Access Rules
+# usage:
+# python3 accessRules.py
+def main():
+  client = sdm.Client(os.getenv("SDM_API_ACCESS_KEY"), os.getenv("SDM_API_SECRET_KEY"))
 
-attachment_response = client.account_attachments.create(grant, timeout=30)
+  # Each of the following functions is an example of how to do an operation using Access Rules.
 
-print("Successfully created account attachment.")
-print("\tID:", attachment_response.account_attachment.id)
+  create_and_update_access_rules(client)
+
+ 	# The RoleGrants API has been deprecated in favor of Access Rules.
+  # When using Access Rules, the best practice is to grant Resources access based on Type and Tags.
+	# If it is _necessary_ to grant access to specific Resources in the same way as RoleGrants did,
+	# you can use Resource IDs directly in Access Rules as shown in the following examples.
+
+  create_role_grant_via_access_rules(client)
+  delete_role_grant_via_access_rules(client)
+  list_role_grants_via_access_rules(client)
+
+
+if __name__ == "__main__":
+  main()
