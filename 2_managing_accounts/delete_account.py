@@ -28,7 +28,7 @@ client = strongdm.Client(api_access_key, api_secret_key)
 user = strongdm.User(
     email="example@strongdm.com",
     first_name="example",
-    last_name="example",
+    last_name="example"
 )
 response = client.accounts.create(user, timeout=30)
 print("Successfully created user.")

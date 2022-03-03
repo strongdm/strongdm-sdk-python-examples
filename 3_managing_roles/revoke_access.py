@@ -30,7 +30,7 @@ def create_example_role(client, access_rules):
   resp = client.roles.create(
     sdm.Role(
       name = "exampleRole-%s" % random.randint(0,100000),
-      access_rules = access_rules,
+      access_rules = access_rules
     )
   )
   return resp.role

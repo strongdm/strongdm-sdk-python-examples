@@ -65,7 +65,7 @@ def create_and_update_access_rules(client):
 user = strongdm.User(
     email="example@strongdm.com",
     first_name="example",
-    last_name="example",
+    last_name="example"
 )
 
 user_response = client.accounts.create(user, timeout=30)
