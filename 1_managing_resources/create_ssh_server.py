@@ -27,8 +27,8 @@ ssh_server = strongdm.SSH(
     name="Example SSH Server",
     hostname="203.0.113.23",
     username="example",
-    port=22
-    tags={"env":"example"},
+    port=22,
+    tags={"env":"example"}
 )
 
 response = client.resources.create(ssh_server, timeout=30)
