@@ -22,7 +22,7 @@ def create_example_resources(client):
     name = "exampleRedis-%s" % random.randint(0,100000),
     hostname = "example.com",
     port_override = random.randint(3000, 20000),
-    tags = {"env": "staging"},
+    tags = {"env": "staging"}
   )
   return client.resources.create(redis).resource
 
@@ -30,7 +30,7 @@ def create_example_role(client, access_rules):
   resp = client.roles.create(
     sdm.Role(
       name = "exampleRole-%s" % random.randint(0,100000),
-      access_rules = access_rules,
+      access_rules = access_rules
     )
   )
   return resp.role
@@ -91,8 +91,8 @@ def main():
   create_and_update_access_rules(client)
 
  	# The RoleGrants API has been deprecated in favor of Access Rules.
-  # When using Access Rules, the best practice is to grant Resources access based on Type and Tags.
-	# If it is _necessary_ to grant access to specific Resources in the same way as RoleGrants did,
+ 	# When using Access Rules, the best practice is to grant Resources access based on type and tags.
+	# If it is _necessary_ to grant access to specific Resources in the same way as Role Grants did,
 	# you can use Resource IDs directly in Access Rules as shown in the following examples.
 
   create_role_grant_via_access_rules(client)

@@ -26,7 +26,7 @@ client = strongdm.Client(api_access_key, api_secret_key)
 # Create a Gateway
 gateway = strongdm.Gateway(
     name="example-gateway",
-    listen_address="gateway.example.com:5555",
+    listen_address="gateway.example.com:5555"
 )
 create_response = client.nodes.create(gateway, timeout=30)
 print("Successfully created gateway.")
