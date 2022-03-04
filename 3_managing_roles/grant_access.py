@@ -22,7 +22,7 @@ def create_example_resources(client):
     name = "exampleRedis-%s" % random.randint(0,100000),
     hostname = "example.com",
     port_override = random.randint(3000, 20000),
-    tags = {"env": "staging"}
+    tags = {"env": "staging"},
   )
   return client.resources.create(redis).resource
 
@@ -76,7 +76,7 @@ def list_role_grants_via_access_rules(client):
   resource = create_example_resources(client)
   role = create_example_role(client, [{"ids": [ resource.id ]}])
 
-  # role.access_rules contains each Access Rule associated with the role
+  # role.access_rules contains each Access Rule associated with the Role
   print(role.access_rules[0]["ids"])
 
 
