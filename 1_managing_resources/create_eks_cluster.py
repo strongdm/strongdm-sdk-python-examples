@@ -52,7 +52,7 @@ eks_cluster = strongdm.AmazonEKS(
     cluster_name="example",
     role_arn="arn:aws:iam::000000000000:role/RoleName",
     healthcheck_namespace="default",
-    tags={"env":"example"}
+    tags={"env":"example"},
 )
 
 

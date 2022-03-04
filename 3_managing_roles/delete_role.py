@@ -22,7 +22,7 @@ def create_example_resources(client):
     name = "exampleRedis-%s" % random.randint(0,100000),
     hostname = "example.com",
     port_override = random.randint(3000, 20000),
-    tags = {"env": "staging"}
+    tags = {"env": "staging"},
   )
   return client.resources.create(redis).resource
 

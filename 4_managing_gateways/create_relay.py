@@ -25,7 +25,7 @@ client = strongdm.Client(api_access_key, api_secret_key)
 
 # Create a Relay
 relay = strongdm.Relay(
-    name="example-relay"
+    name="example-relay",
 )
 
 node_response = client.nodes.create(relay, timeout=30)
