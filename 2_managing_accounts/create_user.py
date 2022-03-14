@@ -12,9 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import sys
+import os.path
+sys.path += [
+    os.path.normpath(
+        os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                     '../../../generated/python'))
+]
 import os
-import random
-import strongdm as sdm
+import strongdm
 
 # Load the SDM API keys from the environment.
 # If these values are not set in your environment,
@@ -25,7 +31,7 @@ api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
 user = strongdm.User(
-    email="example@strongdm.com",
+    email="user-example@example.com",
     first_name="example",
     last_name="example",
 )

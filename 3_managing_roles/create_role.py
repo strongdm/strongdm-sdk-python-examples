@@ -13,42 +13,22 @@
 # limitations under the License.
 #
 import os
-import random
-import strongdm as sdm
+import strongdm
 
-def create_example_resources(client):
-  # Create a resource (e.g., Redis)
-  redis = sdm.Redis(
-    name = "exampleRedis-%s" % random.randint(0,100000),
-    hostname = "example.com",
-    port_override = random.randint(3000, 20000),
-    tags = {"env": "staging"},
-  )
-  return client.resources.create(redis).resource
+# Load the SDM API keys from the environment.
+# If these values are not set in your environment,
+# please follow the documentation here:
+# https://www.strongdm.com/docs/admin-guide/api-credentials/
+api_access_key = os.getenv("SDM_API_ACCESS_KEY")
+api_secret_key = os.getenv("SDM_API_SECRET_KEY")
+client = strongdm.Client(api_access_key, api_secret_key)
 
-def create_example_role(client, access_rules):
-  resp = client.roles.create(
-    sdm.Role(
-      name = "exampleRole-%s" % random.randint(0,100000),
-      access_rules = access_rules
-    )
-  )
-  return resp.role
+# Create a role
+role = strongdm.Role(
+    name="Create Role Python Example",
+)
 
-def create_and_update_access_rules(client):
-  redis = create_example_resources(client)
+role_response = client.roles.create(role, timeout=30)
 
-  # Create a Role with initial Access Rule
-  access_rules = [ {"ids": [redis.id]} ]
-  role = create_example_role(client, access_rules)
-  # Update Access Rules
-  role.access_rules = [
-    {
-      "tags": {"env": "staging"}
-    },
-    {
-      "type": "redis"
-    }
-  ]
-
-  client.roles.update(role)
+print("Successfully created role.")
+print("\tID:", role_response.role.id)

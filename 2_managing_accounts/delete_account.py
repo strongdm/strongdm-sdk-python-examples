@@ -13,8 +13,7 @@
 # limitations under the License.
 #
 import os
-import random
-import strongdm as sdm
+import strongdm
 
 # Load the SDM API keys from the environment.
 # If these values are not set in your environment,
@@ -26,7 +25,7 @@ client = strongdm.Client(api_access_key, api_secret_key)
 
 # Create an account
 user = strongdm.User(
-    email="example@strongdm.com",
+    email="delete-user-example@example.com",
     first_name="example",
     last_name="example",
 )

@@ -24,13 +24,12 @@ api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
 rdp_server = strongdm.RDP(
-    name="Example RDP Server",
+    name="Example RDP Server for Python",
     hostname="example.strongdm.com",
     username="example",
     password="example",
     port=3389,
-    port_override=19999,
-    tags={"env":"example"},
+    port_override=19301
 )
 
 response = client.resources.create(rdp_server, timeout=30)

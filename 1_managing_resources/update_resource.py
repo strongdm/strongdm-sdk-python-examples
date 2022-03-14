@@ -24,14 +24,13 @@ api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
 postgres = strongdm.Postgres(
-    name="Example Postgres Datasource",
+    name="Example Postgres Datasource for Update Test",
     hostname="example.strongdm.com",
     port=5432,
     username="example",
     password="example",
     database="example",
-    port_override=19999,
-    tags={"env":"example"},
+    port_override=19303,
 )
 
 create_response = client.resources.create(postgres, timeout=30)
@@ -40,14 +39,14 @@ print("Successfully created Postgres datasource.")
 print("\tName:", create_response.resource.name)
 print("\tID:", create_response.resource.id)
 
-# Load the Datasource to update
+# Load the datasource to update
 get_response = client.resources.get(create_response.resource.id, timeout=30)
 resource = get_response.resource
 
 # Update the fields to change
-resource.name = "Example Name Updated"
+resource.name = "Example Name Updated for Python"
 
-# Update the Datasource
+# Update the datasource
 update_response = client.resources.update(resource, timeout=30)
 
 print("Successfully updated Postgres datasource.")
