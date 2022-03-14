@@ -24,14 +24,13 @@ api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
 postgres = strongdm.Postgres(
-    name="Example Postgres Datasource",
+    name="Example Postgres Datasource for Python",
     hostname="example.strongdm.com",
     port=5432,
     username="example",
     password="example",
     database="example",
-    port_override=19999,
-    tags={"env":"example"},
+    port_override=19300,
 )
 
 response = client.resources.create(postgres, timeout=30)

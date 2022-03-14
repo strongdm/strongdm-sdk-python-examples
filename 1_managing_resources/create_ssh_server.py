@@ -24,11 +24,10 @@ api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
 ssh_server = strongdm.SSH(
-    name="Example SSH Server",
+    name="Example SSH Server for Python",
     hostname="203.0.113.23",
     username="example",
-    port=22,
-    tags={"env":"example"},
+    port=22
 )
 
 response = client.resources.create(ssh_server, timeout=30)

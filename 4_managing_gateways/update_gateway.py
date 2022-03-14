@@ -23,7 +23,7 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
-# Create a Gateway
+# Create a gateway
 gateway = strongdm.Gateway(
     name="example-gateway",
     listen_address="gateway.example.com:5555",
@@ -34,14 +34,14 @@ print("\tID:", create_response.node.id)
 print("\tName:", create_response.node.name)
 print("\tToken:", create_response.token)
 
-# Get the Gateway
+# Get the gateway
 get_response = client.nodes.get(create_response.node.id, timeout=30)
 gateway = get_response.node
 
 # Set fields
 gateway.name = "example-gateway-updated"
 
-# Update the Gateway
+# Update the gateway
 update_response = client.nodes.update(gateway, timeout=30)
 print("Successfully updated gateway.")
 print("\tID:", update_response.node.id)

@@ -13,6 +13,7 @@
 # limitations under the License.
 #
 import os
+import datetime
 import strongdm
 
 # Load the SDM API keys from the environment.
@@ -23,23 +24,42 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
+# Create a user
+user = strongdm.User(
+    email="revoke-temp-grant-example@example.com",
+    first_name="example",
+    last_name="example",
+)
+user_response = client.accounts.create(user, timeout=30)
+print("Successfully created user.")
+print("\tEmail:", user_response.account.email)
+print("\tID:", user_response.account.id)
+
+# Create a datasource
 postgres = strongdm.Postgres(
-    name="Example Postgres Datasource for Delete Test",
+    name="Example Postgres Datasource for Temp Grant Revoke",
     hostname="example.strongdm.com",
     port=5432,
     username="example",
     password="example",
     database="example",
-    port_override=19302,
+    port_override=19305,
 )
-
-create_response = client.resources.create(postgres, timeout=30)
-
+datasource_response = client.resources.create(postgres, timeout=30)
 print("Successfully created Postgres datasource.")
-print("\tName:", create_response.resource.name)
-print("\tID:", create_response.resource.id)
+print("\tName:", datasource_response.resource.name)
+print("\tID:", datasource_response.resource.id)
 
-# Delete the datasource
-client.resources.delete(create_response.resource.id, timeout=30)
+# Grant the user access to the datasource
+grant = strongdm.AccountGrant(
+    account_id=user_response.account.id,
+    resource_id=datasource_response.resource.id,
+    valid_until=datetime.datetime.now()+datetime.timedelta(minutes=10),
+)
+grant_response = client.account_grants.create(grant, timeout=30)
+print("Successfully created account grant.")
+print("\tID:", grant_response.account_grant.id)
 
-print("Successfully deleted Postgres datasource.")
+# Delete the account grant
+client.account_grants.delete(grant_response.account_grant.id, timeout=30)
+print("Successfully deleted account grant.")

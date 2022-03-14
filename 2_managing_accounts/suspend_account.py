@@ -25,7 +25,7 @@ client = strongdm.Client(api_access_key, api_secret_key)
 
 # Create an account
 user = strongdm.User(
-    email="example@strongdm.com",
+    email="suspend-user-example@strongdm.com",
     first_name="example",
     last_name="example",
 )

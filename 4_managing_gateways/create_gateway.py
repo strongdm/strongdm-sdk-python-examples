@@ -23,7 +23,7 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
-# Create a Gateway
+
 gateway = strongdm.Gateway(
     name="example-gateway",
     listen_address="gateway.example.com:5555",
