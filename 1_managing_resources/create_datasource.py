@@ -23,6 +23,7 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
+# Set `port_override` to `-1` to auto-generate a port if Port Overrides is enabled.
 postgres = strongdm.Postgres(
     name="Example Postgres Datasource for Python",
     hostname="example.strongdm.com",
