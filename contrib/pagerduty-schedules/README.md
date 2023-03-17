@@ -14,7 +14,7 @@ The script has two major portions: first, look up who is on call for a specific 
 
 To get this script working in your environment, you'll need the following:
 
-1. A [strongDM admin API token](/docs/admin-guide/api-credentials/) with *Datasource list and grant* and *User assign and list* rights
+1. A [strongDM admin API token](https://www.strongdm.com/docs/api/api-keys/) with *Datasource list and grant* and *User assign and list* rights
 
 1. A working Python environment. This script was tested with Python 3.7.
 
