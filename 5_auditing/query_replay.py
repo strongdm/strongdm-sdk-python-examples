@@ -36,11 +36,19 @@ print("Queries made against %s" % resource_name)
 queries = client.queries.list("resource_id:?", resource.id)
 
 for query in queries:
-    response = client.snapshot_at(query.timestamp).accounts.get(query.account_id)
+    response = client.snapshot_at(query.timestamp).accounts.get(
+        query.account_id)
     account = response.account
 
-    if query.replayable:
-        print("Replaying query made by %s at %s" % (account.email, query.timestamp))
+    if query.encrypted:
+        print("Skipping encrypted query made by %s at %s" %
+              (account.email, query.timestamp))
+        print(
+            "See encrypted_query_replay.py for an example of query decryption."
+        )
+    elif query.replayable:
+        print("Replaying query made by %s at %s" %
+              (account.email, query.timestamp))
         replay_parts = client.replays.list("id:?", query.id)
         for part in replay_parts:
             for event in part.events:
@@ -48,4 +56,5 @@ for query in queries:
                 time.sleep(event.duration.total_seconds())
     else:
         command = json.loads(query.query_body).get('command')
-        print("Command run by %s at %s: %s" % (account.email, query.timestamp, command))
+        print("Command run by %s at %s: %s" %
+              (account.email, query.timestamp, command))
