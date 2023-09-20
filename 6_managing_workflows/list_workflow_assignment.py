@@ -23,21 +23,7 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
-# Create a Workflow
-workflow = strongdm.Workflow(
-    name = "List Workflow Assignment Python Example",
-    description = "Workflow Description Python Example",
-)
-
-workflow_response = client.workflows.create(workflow, timeout=30)
-workflow = workflow_response.workflow
-workflow_id = workflow.id
-
-print("Successfully created Workflow.")
-print("\tID:", workflow_id)
-
 # Create a Resource - used for workflow assignments
-# Set `port_override` to `-1` to auto-generate a port if Port Overrides is enabled.
 postgres = strongdm.Postgres(
     name="Example Postgres Datasource for Python",
     hostname="example.strongdm.com",
@@ -51,13 +37,19 @@ postgres = strongdm.Postgres(
 resource_response = client.resources.create(postgres, timeout=30)
 resource_id = resource_response.resource.id
 
-# Update workflow assignments
-workflow.access_rules = [{"ids": [ resource_id ]}]
-update_response = client.workflows.update(workflow, timeout=30)
-workflow = update_response.workflow
+# Create a Workflow
+workflow = strongdm.Workflow(
+    name = "List Workflow Assignment Python Example",
+    description = "Workflow Description Python Example",
+    access_rules = [{"ids": [ resource_id ]}]
+)
 
-print("Successfully updated Workflow Assignments.")
-print("\tID:", resource_response.resource.id)
+workflow_response = client.workflows.create(workflow, timeout=30)
+workflow = workflow_response.workflow
+workflow_id = workflow.id
+
+print("Successfully created Workflow.")
+print("\tID:", workflow_id)
 
 # List workflow assignments
 list_resp = client.workflow_assignments.list("resource:?", resource_id)
