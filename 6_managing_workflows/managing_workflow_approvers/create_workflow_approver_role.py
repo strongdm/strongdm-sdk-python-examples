@@ -37,20 +37,18 @@ workflow = strongdm.Workflow(
 workflow_response = client.workflows.create(workflow, timeout=30)
 workflow_id = workflow_response.workflow.id
 
-# Create a approver - used for creating a workflow approver
-user = strongdm.User(
-    email="create-workflow-approver-python-example@example.com",
-    first_name="Example",
-    last_name="Approver",
+# Create an approver role - used for creating a workflow approver
+role = strongdm.Role(
+    name="Role for Creating Workflow Approver Role Python Example",
 )
 
-approver_response = client.accounts.create(user, timeout=30)
-approver_id = approver_response.account.id
+role_response = client.roles.create(role, timeout=30)
+role_id = role_response.role.id
 
 # Create a WorkflowApprover
 workflow_approver = strongdm.WorkflowApprover(
     workflow_id=workflow_id,
-    approver_id=approver_id,
+    role_id=role_id,
 )
 
 workflow_approver_response = client.workflow_approvers.create(workflow_approver, timeout=30)

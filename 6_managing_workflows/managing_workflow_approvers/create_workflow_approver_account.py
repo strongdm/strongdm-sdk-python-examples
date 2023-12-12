@@ -25,7 +25,7 @@ client = strongdm.Client(api_access_key, api_secret_key)
 
 # Create a Workflow with initial Access Rule
 workflow = strongdm.Workflow(
-    name = "Delete WorkflowApprover Python Example",
+    name = "Create WorkflowApprover Python Example",
     description = "Workflow Description Python Example",
     access_rules = [
         {
@@ -37,9 +37,9 @@ workflow = strongdm.Workflow(
 workflow_response = client.workflows.create(workflow, timeout=30)
 workflow_id = workflow_response.workflow.id
 
-# Create a approver - used for creating a workflow approver
+# Create an approver account - used for creating a workflow approver
 user = strongdm.User(
-    email="delete-workflow-approver-python-example@example.com",
+    email="create-workflow-approver-python-example@example.com",
     first_name="Example",
     last_name="Approver",
 )
@@ -50,15 +50,10 @@ approver_id = approver_response.account.id
 # Create a WorkflowApprover
 workflow_approver = strongdm.WorkflowApprover(
     workflow_id=workflow_id,
-    approver_id=approver_id,
+    account_id=approver_id,
 )
 
 workflow_approver_response = client.workflow_approvers.create(workflow_approver, timeout=30)
-workflow_approver_id = workflow_approver_response.workflow_approver.id
 
 print("Successfully created WorkflowApprover.")
 print("\tID:", workflow_approver_response.workflow_approver.id)
-
-# Delete a WorkflowRole
-client.workflow_approvers.delete(workflow_approver_id, timeout=30)
-print("Successfully deleted WorkflowApprover.")
