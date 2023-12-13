@@ -42,7 +42,7 @@ print("Successfully created Workflow.")
 print("\tID:", workflow_id)
 
 # Update Workflow Name
-workflow.name = "Update Worfklow Python Example New Name"
+workflow.name = "Update Workflow Python Example New Name"
 update_response = client.workflows.update(workflow, timeout=30)
 workflow = update_response.workflow
 
