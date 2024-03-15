@@ -31,9 +31,10 @@ api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
 user = strongdm.User(
-    email="user-example@example.com",
+    email="create-user-example@example.com",
     first_name="example",
     last_name="example",
+    permission_level=strongdm.PermissionLevel.TEAM_LEADER
 )
 
 response = client.accounts.create(user, timeout=30)
