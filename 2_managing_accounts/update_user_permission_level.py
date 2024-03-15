@@ -25,24 +25,26 @@ client = strongdm.Client(api_access_key, api_secret_key)
 
 # Create an account
 user = strongdm.User(
-    email="suspend-user-example@strongdm.com",
+    email="update-permissions-example@strongdm.com",
     first_name="example",
     last_name="example",
+    permission_level=strongdm.PermissionLevel.TEAM_LEADER
 )
 response = client.accounts.create(user, timeout=30)
 print("Successfully created user.")
 print("\tEmail:", response.account.email)
 print("\tID:", response.account.id)
+print("\tPermission Level:", response.account.permission_level)
 
 # Get the account
 get_response = client.accounts.get(response.account.id, timeout=30)
 account = get_response.account
 
 # Set fields
-account.permission_level = strongdm.PermissionLevel.SUSPENDED
+account.permission_level = strongdm.PermissionLevel.DATABASE_ADMIN
 
 # Update the account
 update_response = client.accounts.update(account, timeout=30)
-print("Successfully suspended account.")
+print("Successfully updated permission level.")
 print("\tID:", update_response.account.id)
-print("\tSuspended:", update_response.account.suspended)
+print("\tPermission Level:", update_response.account.permission_level)
