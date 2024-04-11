@@ -31,17 +31,18 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
-req = strongdm.Token()
-req.name = "mytoken_test_token_account_create"
-req.account_type = "api"
-req.duration = timedelta(hours=1)
-req.permissions = ["role:list"]
-resp = client.accounts.create(req,timeout=30)
+token = strongdm.Token(
+    name="python-test-delete-token",
+    account_type="api",
+    duration=timedelta(hours=1),
+    permissions=[strongdm.Permission.ROLE_LIST]
+)
+resp = client.accounts.create(token,timeout=30)
 account = resp.account
 
 print("Successfully created token.")
-print("\tEmail:", resp.account.name)
+print("\tName:", resp.account.name)
 print("\tID:", resp.account.id)
 
 client.accounts.delete(account.id, timeout=30)
-print("Successfully deleted account.")
+print("Successfully deleted token.")
