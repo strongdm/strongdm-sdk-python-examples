@@ -14,11 +14,6 @@
 #
 import sys
 import os.path
-sys.path += [
-    os.path.normpath(
-        os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                     '../../../generated/python'))
-]
 import os
 import strongdm
 from datetime import timedelta
@@ -29,7 +24,7 @@ from datetime import timedelta
 # https://www.strongdm.com/docs/api/api-keys/
 api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
-client = strongdm.Client(api_access_key, api_secret_key)
+client = strongdm.Client(api_access_key, api_secret_key, "localhost:8890", True)
 
 token = strongdm.Token(
     name="python-test-create-token",
