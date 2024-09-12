@@ -1,1 +1,1 @@
-strongdm
+strongdm >= 11.10.0
