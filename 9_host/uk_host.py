@@ -22,15 +22,22 @@ import strongdm
 api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 
-# Create the client with the US host.
-client = strongdm.Client(api_access_key, api_secret_key)
-client.host = strongdm.APIHost.UK
+# Create the client with the UK host.
+client = strongdm.Client(api_access_key, api_secret_key, host=strongdm.APIHost.UK)
 
-# Create an approval workflow for example
-approval_workflow = strongdm.ApprovalWorkflow(
-    name = "Approval Workflow Example",
-    approval_mode = "automatic"
+# Create a Postgres Datasource for example
+postgres = strongdm.Postgres(
+    name="Example Postgres Datasource for Python",
+    hostname="example.strongdm.com",
+    port=5432,
+    username="example",
+    password="example",
+    database="example",
+    port_override=19300,
 )
-response = client.approval_workflows.create(approval_workflow, timeout=30)
 
-print("Successfully created approval workflow.")
+response = client.resources.create(postgres, timeout=30)
+
+print("Successfully created Postgres datasource.")
+print("\tName:", response.resource.name)
+print("\tID:", response.resource.id)

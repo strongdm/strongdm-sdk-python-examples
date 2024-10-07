@@ -23,8 +23,7 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 
 # Create the client with the US host.
-client = strongdm.Client(api_access_key, api_secret_key)
-client.host = strongdm.APIHost.US
+client = strongdm.Client(api_access_key, api_secret_key, host=strongdm.APIHost.US)
 
 # Create an approval workflow for example
 approval_workflow = strongdm.ApprovalWorkflow(
