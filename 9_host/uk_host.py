@@ -23,7 +23,7 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 
 # Configure a client to communicate with the UK host.
-# If the WithHost option is not provided it will default to the US control plane (api.strongdm.com:443)
+# If the host value is not provided, it will default to the US control plane (api.strongdm.com:443)
 client = strongdm.Client(api_access_key, api_secret_key, host=strongdm.APIHost.UK)
 
 # Create a Postgres Datasource for example
