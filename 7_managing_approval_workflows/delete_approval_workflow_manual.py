@@ -24,6 +24,11 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
+# Create an approval workflow
+approval_workflow = strongdm.ApprovalWorkflow(
+    name = "Approval Workflow Example",
+    approval_mode = "automatic"
+)
 # Create an approver account - used for creating an approval workflow approver
 user = strongdm.User(
     email="create-approver-example@example.com",
@@ -58,7 +63,6 @@ approval_workflow = strongdm.ApprovalWorkflow(
                 strongdm.ApprovalFlowApprover(role_id=role_id)
             ],
             quantifier="all",
-            skip_after=timedelta(0) #can also do "None"
         ),
         strongdm.ApprovalFlowStep(
             approvers=[
@@ -75,53 +79,9 @@ id = response.approval_workflow.id
 
 print("Successfully created approval workflow.")
 print("\tID:", id)
-print("\tName:", response.approval_workflow.name)
-print("\tDescription:", response.approval_workflow.description)
-print("\tNum Approval Steps:", len(response.approval_workflow.approval_workflow_steps))
 
-# Update the approval workflow (approval workflow id is required)
-updated_approval_workflow = strongdm.ApprovalWorkflow(
-    id=id,
-    name="Example new name",
-    description="a test approval workflow with new description",
-    approval_mode="manual",
-    approval_workflow_steps=[
-        strongdm.ApprovalFlowStep(
-            approvers=[
-                strongdm.ApprovalFlowApprover(account_id=account_id),
-            ],
-            quantifier="all",
-        ),
-        strongdm.ApprovalFlowStep(
-            approvers=[
-                strongdm.ApprovalFlowApprover(role_id=role_id),
-            ],
-            quantifier="any",
-            skip_after=timedelta(hours=1)
-        ),
-        strongdm.ApprovalFlowStep(
-            approvers=[
-                strongdm.ApprovalFlowApprover(account_id=account2_id),
-            ],
-            quantifier="any",
-            skip_after=timedelta(hours=3)
-        )
-    ],
-)
-update_response = client.approval_workflows.update(updated_approval_workflow, timeout=30)
-approval_workflow = update_response.approval_workflow
+# Delete an approval workflow
+client.approval_workflows.delete(id, timeout=30)
 
-print("Successfully update approval workflow.")
-print("\tNew Name:", approval_workflow.name)
-print("\tNew Description:", approval_workflow.description)
-print("\tNum Approval Steps:", len(approval_workflow.approval_workflow_steps))
-
-# Update the approval workflow approval mode
-approval_workflow.approval_mode = "automatic"
-approval_workflow.approval_workflow_steps = []
-update_response = client.approval_workflows.update(approval_workflow, timeout=30)
-approval_workflow = update_response.approval_workflow
-
-print("Successfully update approval workflow approval mode.")
-print("\tNew Approval Mode:", approval_workflow.approval_mode)
+print("Successfully deleted approval workflow.")
 

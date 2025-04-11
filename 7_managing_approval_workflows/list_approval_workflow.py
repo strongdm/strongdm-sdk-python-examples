@@ -48,7 +48,7 @@ role_response = client.roles.create(role, timeout=30)
 role_id = role_response.role.id
 
 approval_workflow = strongdm.ApprovalWorkflow(
-    name="Example Approval Workflow",
+    name="List Example Approval Workflow",
     description="a test approval workflow",
     approval_mode="manual",
     approval_workflow_steps=[
@@ -79,14 +79,14 @@ print("Successfully created manual approval workflow.")
 
 # Create an approval workflow
 approval_workflow = strongdm.ApprovalWorkflow(
-    name = "Example Autogrant Flow",
+    name = "List Example Autogrant Flow",
     approval_mode = "automatic"
 )
 response = client.approval_workflows.create(approval_workflow, timeout=30)
 print("Successfully created autogrant approval workflow.")
 
 # list by name
-resp = client.approval_workflows.list("name:?", "Example*")
+resp = client.approval_workflows.list("name:?", "List*")
 got_approval_workflows = [r for r in resp]
 print("Successfully got approval workflow by name.")
 print("\tGot ", len(got_approval_workflows), " approval workflows")
@@ -99,4 +99,4 @@ print("Successfully got approval workflow by id.")
 print("\tID:", got_approval_workflow.id)
 print("\tName:", got_approval_workflow.name)
 print("\tApproval Mode:", got_approval_workflow.approval_mode)
-print("\tNum Approval Steps:", len(got_approval_workflow.num_approval_steps))
+print("\tNum Approval Steps:", len(got_approval_workflow.approval_workflow_steps))
