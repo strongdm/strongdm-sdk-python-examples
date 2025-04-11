@@ -1,4 +1,4 @@
-# Copyright 2024 StrongDM Inc
+# Copyright 2025 StrongDM Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +24,9 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
-# Create an approver account - used for creating an approval workflow approver
+
+# Create an approver account - this account is designated as an approver in the approval workflow created below,
+# allowing this user to grant approval
 user = strongdm.User(
     email="create-approver-example@example.com",
     first_name="Example",
@@ -32,7 +34,6 @@ user = strongdm.User(
 )
 account_response = client.accounts.create(user, timeout=30)
 account_id = account_response.account.id
-# Create an approver account - used for creating an approval workflow approver
 user2 = strongdm.User(
     email="create-approver-example@example.com",
     first_name="Example",
@@ -40,7 +41,9 @@ user2 = strongdm.User(
 )
 account2_response = client.accounts.create(user2, timeout=30)
 account2_id = account_response.account.id
-# Create an approver role - used for creating an approval workflow approver
+
+# Create an approver role - this role is designated as an approver in the approval workflow created below,
+# allowing any user in this role to grant approval
 role = strongdm.Role(
     name="Approval Workflow Role Example",
 )
