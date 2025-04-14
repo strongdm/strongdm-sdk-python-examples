@@ -34,7 +34,7 @@ user = strongdm.User(
 account_response = client.accounts.create(user, timeout=30)
 account_id = account_response.account.id
 user2 = strongdm.User(
-    email="create-approver-example@example.com",
+    email="create-approver2-example@example.com",
     first_name="Example",
     last_name="Example",
 )
@@ -44,13 +44,13 @@ account2_id = account_response.account.id
 # Create an approver role - this role is designated as an approver in the approval workflow created below,
 # allowing any user in this role to grant approval
 role = strongdm.Role(
-    name="Approval Workflow Role Example",
+    name="Approval Workflow Role1 Example",
 )
 role_response = client.roles.create(role, timeout=30)
 role_id = role_response.role.id
 
 approval_workflow = strongdm.ApprovalWorkflow(
-    name="Approval Workflow Example",
+    name="Approval Workflow Example Manual",
     description="a test approval workflow",
     approval_mode="manual",
     approval_workflow_steps=[
@@ -80,6 +80,16 @@ print("\tID:", id)
 print("\tName:", response.approval_workflow.name)
 print("\tDescription:", response.approval_workflow.description)
 print("\tNum Approval Steps:", len(response.approval_workflow.approval_workflow_steps))
+
+# Get the approval workflow
+get_response = client.approval_workflows.get(id)
+got_approval_flow = get_response.approval_workflow
+
+print("Successfully got approval workflow.")
+print("\tID:", got_approval_flow.id)
+print("\tName:", got_approval_flow.name)
+print("\tApproval Mode:", got_approval_flow.approval_mode)
+print("\tNum Approval Steps:", len(got_approval_flow.approval_workflow_steps))
 
 # Update the approval workflow (approval workflow id is required)
 updated_approval_workflow = strongdm.ApprovalWorkflow(
@@ -126,3 +136,8 @@ approval_workflow = update_response.approval_workflow
 
 print("Successfully update approval workflow approval mode.")
 print("\tNew Approval Mode:", approval_workflow.approval_mode)
+
+# Delete the approval workflow
+client.approval_workflows.delete(approval_workflow.id, timeout=30)
+
+print("Successfully deleted approval workflow.")
