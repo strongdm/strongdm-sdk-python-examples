@@ -1,1 +1,1 @@
-strongdm >= 14.0.0
+strongdm >= 14.2.0
