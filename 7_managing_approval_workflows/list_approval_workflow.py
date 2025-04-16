@@ -35,7 +35,7 @@ user = strongdm.User(
 account_response = client.accounts.create(user, timeout=30)
 account_id = account_response.account.id
 user2 = strongdm.User(
-    email="create-approver-example@example.com",
+    email="create-approver2-example@example.com",
     first_name="Example",
     last_name="Example",
 )
