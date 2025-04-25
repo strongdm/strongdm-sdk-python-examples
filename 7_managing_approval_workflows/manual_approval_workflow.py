@@ -65,7 +65,7 @@ approval_workflow = strongdm.ApprovalWorkflow(
         strongdm.ApprovalFlowStep(
             approvers=[
                 strongdm.ApprovalFlowApprover(account_id=account2_id),
-                strongdm.ApprovalFlowApprover(reference=strongdm.ApprovalFlowApprover.MANAGER_OF_REQUESTER),
+                strongdm.ApprovalFlowApprover(reference=strongdm.ApproverReference.MANAGER_OF_REQUESTER),
             ],
             quantifier="any",
             skip_after=timedelta(hours=1)
@@ -115,7 +115,7 @@ updated_approval_workflow = strongdm.ApprovalWorkflow(
         strongdm.ApprovalFlowStep(
             approvers=[
                 strongdm.ApprovalFlowApprover(account_id=account2_id),
-                strongdm.ApprovalFlowApprover(reference=strongdm.ApprovalFlowApprover.MANAGER_OF_MANAGER_OF_REQUESTER),
+                strongdm.ApprovalFlowApprover(reference=strongdm.ApproverReference.MANAGER_OF_MANAGER_OF_REQUESTER),
             ],
             quantifier="any",
             skip_after=timedelta(hours=3)
