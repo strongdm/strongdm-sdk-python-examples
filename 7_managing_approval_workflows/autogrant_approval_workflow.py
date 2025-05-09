@@ -1,4 +1,4 @@
-# Copyright 2024 StrongDM Inc
+# Copyright 2025 StrongDM Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ client = strongdm.Client(api_access_key, api_secret_key)
 
 # Create an approval workflow
 approval_workflow = strongdm.ApprovalWorkflow(
-    name = "Approval Workflow Example",
+    name = "Approval Workflow Example Automatic",
     approval_mode = "automatic"
 )
 
@@ -33,9 +33,21 @@ response = client.approval_workflows.create(approval_workflow, timeout=30)
 approval_workflow = response.approval_workflow
 id = approval_workflow.id
 name = approval_workflow.name
+approval_mode = approval_workflow.approval_mode
 
 print("Successfully created approval workflow.")
 print("\tID:", id)
+print("\tName:", name)
+print("\tApproval Mode:", approval_mode)
+
+# Get the approval workflow
+get_response = client.approval_workflows.get(id)
+got_approval_flow = get_response.approval_workflow
+
+print("Successfully got approval workflow.")
+print("\tID:", got_approval_flow.id)
+print("\tName:", got_approval_flow.name)
+print("\tApproval Mode:", got_approval_flow.approval_mode)
 
 # Update the approval workflow name
 approval_workflow.name = "Example New Name"
@@ -61,3 +73,7 @@ approval_workflow = update_response.approval_workflow
 print("Successfully update approval workflow approval mode.")
 print("\tNew Approval Mode:", approval_workflow.approval_mode)
 
+# Delete the approval workflow
+client.approval_workflows.delete(approval_workflow.id, timeout=30)
+
+print("Successfully deleted approval workflow.")
