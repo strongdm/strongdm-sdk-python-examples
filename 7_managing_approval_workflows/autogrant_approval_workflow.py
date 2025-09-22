@@ -54,7 +54,7 @@ approval_workflow.name = "Example New Name"
 update_response = client.approval_workflows.update(approval_workflow, timeout=30)
 approval_workflow = update_response.approval_workflow
 
-print("Successfully update approval workflow name.")
+print("Successfully updated approval workflow name.")
 print("\tNew Name:", approval_workflow.name)
 
 # Update the approval workflow description
@@ -62,7 +62,7 @@ approval_workflow.description = "Example New Description"
 update_response = client.approval_workflows.update(approval_workflow, timeout=30)
 approval_workflow = update_response.approval_workflow
 
-print("Successfully update approval workflow description.")
+print("Successfully updated approval workflow description.")
 print("\tNew Description:", approval_workflow.description)
 
 # Update the approval workflow approval mode
@@ -70,7 +70,7 @@ approval_workflow.approval_mode = "manual"
 update_response = client.approval_workflows.update(approval_workflow, timeout=30)
 approval_workflow = update_response.approval_workflow
 
-print("Successfully update approval workflow approval mode.")
+print("Successfully updated approval workflow approval mode.")
 print("\tNew Approval Mode:", approval_workflow.approval_mode)
 
 # Delete the approval workflow

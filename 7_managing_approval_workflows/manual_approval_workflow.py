@@ -49,6 +49,14 @@ role = strongdm.Role(
 role_response = client.roles.create(role, timeout=30)
 role_id = role_response.role.id
 
+# Create an approver group - this group is designated as an approver in the approval workflow created below,
+# allowing any user in this group to grant approval
+group = strongdm.Group(
+    name="Approval Workflow Group Example",
+)
+group_response = client.groups.create(group, timeout=30)
+group_id = group_response.group.id
+
 approval_workflow = strongdm.ApprovalWorkflow(
     name="Approval Workflow Example Manual",
     description="a test approval workflow",
@@ -57,7 +65,8 @@ approval_workflow = strongdm.ApprovalWorkflow(
         strongdm.ApprovalFlowStep(
             approvers=[
                 strongdm.ApprovalFlowApprover(account_id=account_id),
-                strongdm.ApprovalFlowApprover(role_id=role_id)
+                strongdm.ApprovalFlowApprover(role_id=role_id),
+                strongdm.ApprovalFlowApprover(group_id=group_id)  # Group approver added
             ],
             quantifier="all",
             skip_after=timedelta(0)
@@ -65,6 +74,7 @@ approval_workflow = strongdm.ApprovalWorkflow(
         strongdm.ApprovalFlowStep(
             approvers=[
                 strongdm.ApprovalFlowApprover(account_id=account2_id),
+                strongdm.ApprovalFlowApprover(group_id=group_id),  # Group approver added
                 strongdm.ApprovalFlowApprover(reference=strongdm.ApproverReference.MANAGER_OF_REQUESTER),
             ],
             quantifier="any",
@@ -125,7 +135,7 @@ updated_approval_workflow = strongdm.ApprovalWorkflow(
 update_response = client.approval_workflows.update(updated_approval_workflow, timeout=30)
 approval_workflow = update_response.approval_workflow
 
-print("Successfully update approval workflow.")
+print("Successfully updated approval workflow.")
 print("\tNew Name:", approval_workflow.name)
 print("\tNew Description:", approval_workflow.description)
 print("\tNum Approval Steps:", len(approval_workflow.approval_workflow_steps))
@@ -136,7 +146,7 @@ approval_workflow.approval_workflow_steps = []
 update_response = client.approval_workflows.update(approval_workflow, timeout=30)
 approval_workflow = update_response.approval_workflow
 
-print("Successfully update approval workflow approval mode.")
+print("Successfully updated approval workflow approval mode.")
 print("\tNew Approval Mode:", approval_workflow.approval_mode)
 
 # Delete the approval workflow
