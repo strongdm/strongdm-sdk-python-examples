@@ -46,9 +46,26 @@ resource = get_response.resource
 # Update the fields to change
 resource.name = "Example Name Updated for Python"
 
+# If your organization has Virtual Networking Mode enabled,
+# you can automatically allocate an IP to that resource via the ResourceIPAllocationMode.VNM constant...
+resource.bind_interface = strongdm.ResourceIPAllocationMode.VNM
+
+# ...Or fallback to the default behavior for your organization...
+resource.bind_interface = strongdm.ResourceIPAllocationMode.DEFAULT
+
+# ...Or if there is a specific IP to bind to, you can specify it directly.
+# For more details on Virtual Networking Mode see documentation here:
+# https://docs.strongdm.com/admin/clients/client-networking/virtual-networking-mode
+resource.bind_interface = "127.0.0.1"
+
+# Update `port_override` to `-1` to auto-allocate a different available port.
+resource.port_override = -1
+
 # Update the datasource
 update_response = client.resources.update(resource, timeout=30)
 
 print("Successfully updated Postgres datasource.")
 print("\tID:", update_response.resource.id)
 print("\tName:", update_response.resource.name)
+print("\tBindInterface:", update_response.resource.bind_interface)
+print("\tPortOverride:", update_response.resource.port_override)
