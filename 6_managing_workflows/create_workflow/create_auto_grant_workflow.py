@@ -23,12 +23,20 @@ api_access_key = os.getenv("SDM_API_ACCESS_KEY")
 api_secret_key = os.getenv("SDM_API_SECRET_KEY")
 client = strongdm.Client(api_access_key, api_secret_key)
 
+# Create an automatic grant approval flow
+approval_flow = strongdm.ApprovalWorkflow(
+    name = "Auto Grant Example",
+    approval_mode = "automatic"
+)
+
+approval_flow_response = client.approval_workflows.create(approval_flow, timeout=30)
+
 # Create an auto grant Workflow with initial Access Rule. Note that this 
 # workflow will be enabled.
 workflow = strongdm.Workflow(
     name = "Create Auto Grant Workflow Python Example",
     description = "Workflow Description Python Example",
-    auto_grant = True,
+    approval_flow_id = approval_flow_response.approval_workflow.id,
     enabled = True,
     access_rules = [
         {

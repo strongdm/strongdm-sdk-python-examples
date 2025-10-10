@@ -66,20 +66,26 @@ workflow = update_response.workflow
 print("Successfully update Workflow Weight.")
 print("\tNew Weight:", workflow.weight)
 
-# Update Workflow AutoGrant
-auto = workflow.auto_grant
-workflow.auto_grant = not auto
+# Create an automatic grant approval flow
+approval_flow = strongdm.ApprovalWorkflow(
+    name = "Auto Grant Example",
+    approval_mode = "automatic"
+)
+approval_flow_response = client.approval_workflows.create(approval_flow, timeout=30)
+
+print("Successfully created ApprovalWorkflow.")
+print("\tID:", approval_flow_response.approval_workflow.id)
+
+# Update Workflow Approval Flow
+workflow.approval_flow_id = approval_flow_response.approval_workflow.id
 update_response = client.workflows.update(workflow, timeout=30)
 workflow = update_response.workflow
 
-print("Successfully update Workflow AutoGrant.")
-print("\tAutoGrant:", workflow.auto_grant)
+print("Successfully update Workflow Approval Flow.")
+print("\tApproval Flow ID:", workflow.approval_flow_id)
 
 # Update Workflow Enabled
-# The requirements to enable a workflow are that the workflow must be either set
-# up for with auto grant enabled or have one or more WorkflowApprovers created for
-# the workflow.
-workflow.auto_grant = True
+# To enable a workflow, an approval flow must be attached.
 workflow.enabled = True
 update_response = client.workflows.update(workflow, timeout=30)
 workflow = update_response.workflow
